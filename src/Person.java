@@ -30,6 +30,7 @@ public class Person {
         return phoneNumber;
     }
 
+    //the toString method in the Person class
     @java.lang.Override
     public java.lang.String toString() {
         return firstName + " " + lastName + " - #" + phoneNumber;
