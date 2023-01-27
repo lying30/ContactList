@@ -19,6 +19,11 @@ public class ContactList
 
     public ContactList() {
         this.contacts = new ArrayList<Person>();
+        this.contacts.add(new Student("a", "z", "123", 10));
+        this.contacts.add(new Student("b", "y", "567", 10));
+        this.contacts.add(new Student("c", "x", "234", 10));
+        this.contacts.add(new Student("d", "w", "987", 10));
+        this.contacts.add(new Celebrity("z", "y", "3", 3));
     }
 
     public void printMenuOptions() {
@@ -39,12 +44,14 @@ public class ContactList
      * to the contact list
      */
     public void addContact() {
-        // TODO: Complete the addContact method
         Scanner scanner = new Scanner(System.in);
         System.out.println("Select a type of contact to add: ");
         System.out.println("1. Student");
         System.out.println("2. Celebrity");
-        if(scanner.nextInt() == 1){
+        int number = scanner.nextInt();
+        // if they choose to add a student contact
+        if(number == 1){
+            scanner.nextLine();
             System.out.println("Please fill in the following information.");
             System.out.println("First Name:");
             String firstName = scanner.nextLine();
@@ -58,8 +65,11 @@ public class ContactList
 
             Student student = new Student(firstName, lastName, phoneNumber, grade);
             contacts.add(student);
+
         }
-        else if(scanner.nextInt() == 2){
+        //if they choose to add a celebrity contact
+        else if(number == 2){
+            scanner.nextLine();
             System.out.println("Please fill in the following information.");
             System.out.println("First Name:");
             String firstName = scanner.nextLine();
@@ -70,7 +80,8 @@ public class ContactList
             System.out.println("Instagram Followers:");
             int followers = scanner.nextInt();
             scanner.nextLine();
-            Student celebrity = new Student(firstName, lastName, phoneNumber, followers);contacts.add(celebrity);
+            Celebrity celebrity = new Celebrity(firstName, lastName, phoneNumber, followers);
+            contacts.add(celebrity);
         }
     }
 
@@ -89,44 +100,48 @@ public class ContactList
      * @param sortBy: 0=firstName, 1=lastName, 2=phoneNumber
      */
     public void sort(int sortBy) {
-        // TODO: Complete the sort method
         int n = contacts.size();
+        //bubble sort for loop algorithm
         for(int i=0; i<n-1; i++) {
             for(int j=0; j<n-i-1; j++){
-                //if sort by first name
+                //if sort by equals 0 sort by first name
                 if(sortBy == 0){
-                    String s1 = contacts.get(i).getFirstName();
-                    String s2 = contacts.get(i+1).getFirstName();
+                    //assign current and next object to variables
+                    String s1 = contacts.get(j).getFirstName();
+                    String s2 = contacts.get(j+1).getFirstName();
+                    //compare
                     int result = s1.compareTo(s2);
 
-                    //if the first string comes after the second string, it s swapped
+                    //if the first string comes after the second string, its swapped
                     if(result>0){
-                        contacts.add(i+2, contacts.get(i));
-                        contacts.remove(i);
+                        contacts.add(j+2, contacts.get(j));
+                        contacts.remove(j);
                     }
                 }
                 //if sort by last name
                 else if(sortBy == 1){
-                    String s1 = contacts.get(i).getLastName();
-                    String s2 = contacts.get(i+1).getLastName();
+                    //assign current and next object to variables
+                    String s1 = contacts.get(j).getLastName();
+                    String s2 = contacts.get(j+1).getLastName();
+                    //compare
                     int result = s1.compareTo(s2);
 
                     //if the first string comes after the second string, it s swapped
                     if(result>0){
-                        contacts.add(i+2, contacts.get(i));
-                        contacts.remove(i);
+                        contacts.add(j+2, contacts.get(j));
+                        contacts.remove(j);
                     }
                 }
                 // if sort by phone number
                 else{
-                    String s1 = contacts.get(i).getPhoneNumber();
-                    String s2 = contacts.get(i+1).getPhoneNumber();
+                    String s1 = contacts.get(j).getPhoneNumber();
+                    String s2 = contacts.get(j+1).getPhoneNumber();
                     int result = s1.compareTo(s2);
 
                     //if the first string comes after the second string, it s swapped
                     if(result>0){
-                        contacts.add(i+2, contacts.get(i));
-                        contacts.remove(i);
+                        contacts.add(j+2, contacts.get(j));
+                        contacts.remove(j);
                     }
                 }
             }
@@ -182,48 +197,76 @@ public class ContactList
         System.out.println("Please pick from the following menu options");
         printMenuOptions();
 
-        // TODO: Complete the run method
         Scanner scanner = new Scanner(System.in);
         int input = scanner.nextInt();
+        scanner.nextLine();
         while(input != 0){
+            //adds a contact
             if(input == 1){
                 addContact();
-                continue;
             }
+            //prints by first name
             else if(input == 2){
                 sort(0);
                 printContacts();
-                continue;
             }
+            //prints by last name
             else if(input == 3){
                 sort(1);
                 printContacts();
-                continue;
             }
+            //prints contacts by phone number
             else if(input == 4){
                 sort(2);
                 printContacts();
-                continue;
             }
+            //prints list of only students
             else if(input == 5){
                 listStudents();
-                continue;
             }
+            //allows input of first name to search for a contact
             else if(input == 6){
                 System.out.println("Enter a first name:");
-                searchByFirstName(scanner.nextLine());
-                continue;
+                String name = scanner.nextLine();
+                Person result = searchByFirstName(name);
+                if(result != null){
+                    System.out.println(result);
+                }
+                else{
+                    System.out.println(name + " is not in the list");
+                }
             }
             else if(input == 7){
                 System.out.println("Enter a last name:");
-                searchByLastName(scanner.nextLine());
-                continue;
+                String name = scanner.nextLine();
+                Person result = searchByLastName(name);
+                if(result != null){
+                    System.out.println(result);
+                }
+                else{
+                    System.out.println(name + " is not in the list");
+                }
+
             }
             else if(input == 8){
                 System.out.println("Enter a phone number:");
-                searchByPhoneNumber(scanner.nextLine());
-                continue;
+                String number = scanner.nextLine();
+                Person result = searchByPhoneNumber(number);
+                if(result != null){
+                    System.out.println(result);
+                }
+                else{
+                    System.out.println(number + " is not in the list");
+                }
+
             }
+            System.out.println();
+            System.out.println();
+
+            //ask for input again to stop forever loop
+            printMenuOptions();
+            input = scanner.nextInt();
+            scanner.nextLine();
         }
     }
 
