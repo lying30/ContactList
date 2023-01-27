@@ -15,15 +15,9 @@ import java.util.Scanner;
 public class ContactList
 {
     private ArrayList<Person> contacts;
-    // TODO: Write a Constructor
 
     public ContactList() {
         this.contacts = new ArrayList<Person>();
-        this.contacts.add(new Student("a", "z", "123", 10));
-        this.contacts.add(new Student("b", "y", "567", 10));
-        this.contacts.add(new Student("c", "x", "234", 10));
-        this.contacts.add(new Student("d", "w", "987", 10));
-        this.contacts.add(new Celebrity("z", "y", "3", 3));
     }
 
     public void printMenuOptions() {
